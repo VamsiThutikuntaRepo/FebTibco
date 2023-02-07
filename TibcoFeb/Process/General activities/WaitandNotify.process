@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pd="http://xmlns.tibco.com/bw/process/2003">
+    <pd:name>Process/General activities/WaitandNotify.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>142</pd:startX>
+    <pd:startY>137</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>450</pd:endX>
+    <pd:endY>64</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1675791303288</pd:targetNamespace>
+    <pd:activity name="Wait">
+        <pd:type>com.tibco.plugin.waitnotify.WaitActivity</pd:type>
+        <pd:resourceType>ae.activities.waitActivity</pd:resourceType>
+        <pd:x>290</pd:x>
+        <pd:y>65</pd:y>
+        <config>
+            <sharedConfig>/SharedResources/Notify Configuration.sharednotify</sharedConfig>
+        </config>
+        <pd:inputBindings>
+            <input/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Notify">
+        <pd:type>com.tibco.plugin.waitnotify.NotifyActivity</pd:type>
+        <pd:resourceType>ae.activities.notifyActivity</pd:resourceType>
+        <pd:x>304</pd:x>
+        <pd:y>216</pd:y>
+        <config>
+            <sharedConfig>/SharedResources/Notify Configuration.sharednotify</sharedConfig>
+        </config>
+        <pd:inputBindings>
+            <input/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Wait</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Notify</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Wait</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Notify</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>
