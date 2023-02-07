@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/pe/SignalInActivitySchema" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file" xmlns:ns2="http://www.tibco.com/namespaces/tnt/plugins/file/v2">
+    <pd:name>Process/File/FileProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>181</pd:startX>
+    <pd:startY>158</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>948</pd:endX>
+    <pd:endY>158</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1675756502552</pd:targetNamespace>
+    <pd:activity name="Create File">
+        <pd:type>com.tibco.plugin.file.FileCreateActivity</pd:type>
+        <pd:resourceType>ae.activities.FileCreateActivity</pd:resourceType>
+        <pd:x>314</pd:x>
+        <pd:y>158</pd:y>
+        <config>
+            <overwrite>true</overwrite>
+            <createDirectory>false</createDirectory>
+            <createMissingDirectories>true</createMissingDirectories>
+        </config>
+        <pd:inputBindings>
+            <ns:CreateActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="&quot;D:\FebTibco\TibcoFeb\Files\File.txt&quot;"/>
+                </fileName>
+            </ns:CreateActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="List Files">
+        <pd:type>com.tibco.plugin.file.ListFilesActivity</pd:type>
+        <pd:resourceType>ae.activities.ListFilesActivity</pd:resourceType>
+        <pd:x>556</pd:x>
+        <pd:y>304</pd:y>
+        <config>
+            <mode>files-and-directories</mode>
+        </config>
+        <pd:inputBindings>
+            <ns:ListFilesActivityConfig>
+                <fileName>
+                    <xsl:value-of select="&quot;D:\FebTibco\TibcoFeb\Files\*.*&quot;"/>
+                </fileName>
+            </ns:ListFilesActivityConfig>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>557</pd:x>
+        <pd:y>158</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <ns2:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="$Create-File/ns:CreateActivityOutputClass/fileInfo/fullName"/>
+                </fileName>
+            </ns2:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Rename File">
+        <pd:type>com.tibco.plugin.file.FileRenameActivity</pd:type>
+        <pd:resourceType>ae.activities.FileRenameActivity</pd:resourceType>
+        <pd:x>746</pd:x>
+        <pd:y>158</pd:y>
+        <config>
+            <overwrite>true</overwrite>
+            <createMissingDirectories>true</createMissingDirectories>
+        </config>
+        <pd:inputBindings>
+            <ns:RenameActivityConfig>
+                <fromFileName>
+                    <xsl:value-of select="&quot;D:\FebTibco\TibcoFeb\Files\File1.txt&quot;"/>
+                </fromFileName>
+                <toFileName>
+                    <xsl:value-of select="&quot;D:\FebTibco\TibcoFeb\Files\File2.txt&quot;"/>
+                </toFileName>
+            </ns:RenameActivityConfig>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Wait for File Change">
+        <pd:type>com.tibco.plugin.file.FileSignalIn</pd:type>
+        <pd:resourceType>ae.activities.FileSignalInUI</pd:resourceType>
+        <pd:x>439</pd:x>
+        <pd:y>166</pd:y>
+        <config>
+            <_eventTimeout>60000</_eventTimeout>
+            <pollInterval>5</pollInterval>
+            <createEvent>true</createEvent>
+            <modifyEvent>true</modifyEvent>
+            <deleteEvent>true</deleteEvent>
+            <mode>files-and-directories</mode>
+            <encoding>text</encoding>
+            <sortby>sortbyName</sortby>
+            <sortorder>sortorderDescending</sortorder>
+            <fileName>D:\FebTibco\TibcoFeb\Files\File.txt</fileName>
+        </config>
+        <pd:inputBindings>
+            <pfx:input/>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Write File">
+        <pd:type>com.tibco.plugin.file.FileWriteActivity</pd:type>
+        <pd:resourceType>ae.activities.FileWriteActivity</pd:resourceType>
+        <pd:x>744</pd:x>
+        <pd:y>305</pd:y>
+        <config>
+            <encoding>text</encoding>
+            <compressFile>None</compressFile>
+            <append>true</append>
+        </config>
+        <pd:inputBindings>
+            <ns:WriteActivityInputTextClass>
+                <fileName>
+                    <xsl:value-of select="&quot;D:\FebTibco\TibcoFeb\Files\File1.txt&quot;"/>
+                </fileName>
+                <textContent>
+                    <xsl:value-of select="&quot;Data Entered&quot;"/>
+                </textContent>
+            </ns:WriteActivityInputTextClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Create File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Create File</pd:from>
+        <pd:to>Wait for File Change</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Wait for File Change</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>List Files</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>List Files</pd:from>
+        <pd:to>Write File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Rename File</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Write File</pd:from>
+        <pd:to>Rename File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

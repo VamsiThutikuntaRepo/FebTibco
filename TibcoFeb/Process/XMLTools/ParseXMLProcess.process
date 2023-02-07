@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pd:ProcessDefinition xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pfx="http://www.tibco.com/schemas/TibcoFeb/SharedResources/Schema/Schema.xsd" xmlns:pd="http://xmlns.tibco.com/bw/process/2003" xmlns:pfx2="http://www.tibco.com/namespaces/tnt/plugins/file/v2" xmlns:ns="http://www.tibco.com/namespaces/tnt/plugins/file">
+    <xs:import xmlns:xs="http://www.w3.org/2001/XMLSchema" namespace="http://www.tibco.com/schemas/TibcoFeb/SharedResources/Schema/Schema.xsd" schemaLocation="/SharedResources/Schema/UserSchema.xsd"/>
+    <pd:name>Process/XMLTools/ParseXMLProcess.process</pd:name>
+    <pd:startName>Start</pd:startName>
+    <pd:startX>216</pd:startX>
+    <pd:startY>148</pd:startY>
+    <pd:returnBindings/>
+    <pd:endName>End</pd:endName>
+    <pd:endX>713</pd:endX>
+    <pd:endY>148</pd:endY>
+    <pd:errorSchemas/>
+    <pd:processVariables/>
+    <pd:targetNamespace>http://xmlns.example.com/1675758354795</pd:targetNamespace>
+    <pd:activity name="Parse XML">
+        <pd:type>com.tibco.plugin.xml.XMLParseActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLParseActivity</pd:resourceType>
+        <pd:x>470</pd:x>
+        <pd:y>148</pd:y>
+        <config>
+            <inputStyle>text</inputStyle>
+            <xsdVersion>default</xsdVersion>
+            <validateOutput>true</validateOutput>
+            <term ref="pfx:Usersinfo"/>
+        </config>
+        <pd:inputBindings>
+            <xmlString>
+                <xsl:value-of select="$Read-File/ns:ReadActivityOutputTextClass/fileContent/textContent"/>
+            </xmlString>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Read File">
+        <pd:type>com.tibco.plugin.file.FileReadActivity</pd:type>
+        <pd:resourceType>ae.activities.FileReadActivity</pd:resourceType>
+        <pd:x>347</pd:x>
+        <pd:y>148</pd:y>
+        <config>
+            <encoding>text</encoding>
+        </config>
+        <pd:inputBindings>
+            <pfx2:ReadActivityInputClass>
+                <fileName>
+                    <xsl:value-of select="&quot;D:\FebTibco\TibcoFeb\Files\Usersinfo.xml&quot;"/>
+                </fileName>
+            </pfx2:ReadActivityInputClass>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:activity name="Render XML">
+        <pd:type>com.tibco.plugin.xml.XMLRendererActivity</pd:type>
+        <pd:resourceType>ae.activities.XMLRendererActivity</pd:resourceType>
+        <pd:x>591</pd:x>
+        <pd:y>148</pd:y>
+        <config>
+            <renderAsText>text</renderAsText>
+            <validateInput>true</validateInput>
+            <term ref="pfx:Usersinfo"/>
+        </config>
+        <pd:inputBindings>
+            <pfx:Usersinfo>
+                <pfx:Userdata>
+                    <pfx:UserID>
+                        <xsl:value-of select="'21212123'"/>
+                    </pfx:UserID>
+                    <pfx:UserName>
+                        <xsl:value-of select="'Krishna'"/>
+                    </pfx:UserName>
+                    <pfx:UserDesignation>
+                        <xsl:value-of select="'Empty'"/>
+                    </pfx:UserDesignation>
+                    <pfx:UserCity>
+                        <xsl:value-of select="'Chittoor'"/>
+                    </pfx:UserCity>
+                </pfx:Userdata>
+            </pfx:Usersinfo>
+        </pd:inputBindings>
+    </pd:activity>
+    <pd:transition>
+        <pd:from>Start</pd:from>
+        <pd:to>Read File</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Read File</pd:from>
+        <pd:to>Parse XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Parse XML</pd:from>
+        <pd:to>Render XML</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+    <pd:transition>
+        <pd:from>Render XML</pd:from>
+        <pd:to>End</pd:to>
+        <pd:lineType>Default</pd:lineType>
+        <pd:lineColor>-16777216</pd:lineColor>
+        <pd:conditionType>always</pd:conditionType>
+    </pd:transition>
+</pd:ProcessDefinition>

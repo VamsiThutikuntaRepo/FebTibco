@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	 xmlns="http://www.tibco.com/schemas/TibcoFeb/SharedResources/Schema/Schema.xsd"
+	 targetNamespace="http://www.tibco.com/schemas/TibcoFeb/SharedResources/Schema/Schema.xsd"
+	 elementFormDefault="qualified"
+	 attributeFormDefault="unqualified">
+	<xs:element name="Usersinfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Userdata" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Userdata">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="UserID"/>
+				<xs:element ref="UserName"/>
+				<xs:element ref="UserDesignation"/>
+				<xs:element ref="UserCity"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UserID" type="xs:string"/>
+	<xs:element name="UserName" type="xs:string"/>
+	<xs:element name="UserDesignation" type="xs:string"/>
+	<xs:element name="UserCity" type="xs:string"/>
+</xs:schema>
