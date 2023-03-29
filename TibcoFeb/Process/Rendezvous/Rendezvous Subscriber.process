@@ -16,7 +16,7 @@
             <wantsXMLCompliantFieldNames>false</wantsXMLCompliantFieldNames>
             <wantsRawRVObjectForOutput>false</wantsRawRVObjectForOutput>
             <subject>'vamsi'</subject>
-            <sharedChannel>/SharedResources/Rendezvous Transport.rvtransport</sharedChannel>
+            <sharedChannel>/SharedResources/Connections/Rendezvous Transport.rvtransport</sharedChannel>
             <xsdString>
                 <xsd:element name="Details">
                     <xsd:complexType>
